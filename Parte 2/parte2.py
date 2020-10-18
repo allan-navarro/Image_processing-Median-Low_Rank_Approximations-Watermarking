@@ -7,7 +7,7 @@ imagen_a_limpiar=cv2.imread("limpiar.jpg",cv2.IMREAD_GRAYSCALE)
 shape = imagen_a_limpiar.shape
 rows=shape[0]
 cols=shape[1]
-print(shape)
+
 rangos=[40,120, 220, 300, 380, 416]
 
 imgs_ruido= [join('.','ruido',f) for f in listdir('ruido') if isfile(join('ruido',f))] #lista con el nombre de las imagenes originales
@@ -52,7 +52,4 @@ for r in rangos:
     reconst[reconst<0]=0
     reconst[reconst>255]=255
     reconst=reconst.astype(np.uint8) 
-    print(reconst)
-    cv2.imshow("img",reconst)
-    cv2.waitKey(0)
-
+    cv2.imwrite('limpia_r'+str(r)+'.jpg',reconst)
