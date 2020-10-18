@@ -33,12 +33,26 @@ for index in range(len(imgs_orig)):
     B_ruido[:,index]=cv2.imread(img_ruido_path,cv2.IMREAD_GRAYSCALE).reshape(rows*cols)
     C_orig[:,index]=cv2.imread(img_orig_path,cv2.IMREAD_GRAYSCALE).reshape(rows*cols)
    
+u_b,s_b,vh_b=np.linalg.svd(B_ruido,False)
+eps=np.finfo(s_b.dtype).eps #lo que es considerado 0 por python
+rango_b=len(s_b[s_b>eps])
+Vs=vh_b.transpose()[:,0:rango_b]
+P= C_orig@Vs@Vs.transpose()
+B_pinv= vh_b.transpose() @ np.linalg.inv(np.diag(s_b)) @ u_b.transpose() #B†
 
+u_p,s_p,vh_p=np.linalg.svd(P,False)
 
 
 for r in rangos:
-    print(r)
+    Pr= u_p[:,0:r] @np.diag(s_p[0:r]) @ vh_p.transpose()[:,0:r].transpose()
+    Zt=Pr@B_pinv
+    reconst=np.dot(Zt,imagen_a_limpiar.reshape(rows*cols))
 
+    reconst=reconst.reshape(rows,cols)
+    reconst[reconst<0]=0
+    reconst[reconst>255]=255
+    reconst=reconst.astype(np.uint8) 
+    print(reconst)
+    cv2.imshow("img",reconst)
+    cv2.waitKey(0)
 
-cv2.imshow("img",imagen_a_limpiar)
-cv2.waitKey(0)
