@@ -2,7 +2,7 @@ import cv2
 from os import listdir
 from os.path import isfile, join
 import numpy as np
-
+import matplotlib.pyplot as plt
 imagen_a_limpiar=cv2.imread("limpiar.jpg",cv2.IMREAD_GRAYSCALE)
 shape = imagen_a_limpiar.shape
 rows=shape[0] #columnas de la imagen 
@@ -55,7 +55,9 @@ B_pinv= vh_b.transpose() @ np.linalg.inv(np.diag(s_b)) @ u_b.transpose()
 u_p,s_p,vh_p=np.linalg.svd(P,False)
 
 #itera los rangos deseados
+pos=0
 for r in rangos:
+    pos +=1
     #calcula P reducida con el rango r
     Pr= u_p[:,0:r] @np.diag(s_p[0:r]) @ vh_p.transpose()[:,0:r].transpose()
 
@@ -72,4 +74,9 @@ for r in rangos:
     reconst=reconst.astype(np.uint8) 
 
     #se guarda la imagen
-    cv2.imwrite('limpia_r'+str(r)+'.jpg',reconst)
+    #cv2.imwrite('limpia_r'+str(r)+'.jpg',reconst)
+    plt.subplot(2,3,pos)
+    plt.imshow(reconst,cmap='gray')
+    plt.title('limpia r: '+str(r))
+
+plt.show()
