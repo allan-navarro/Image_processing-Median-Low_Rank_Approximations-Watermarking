@@ -59,7 +59,29 @@ plt.title('W (marca de agua)')
 
 plt.subplot(2,2,3)
 plt.imshow(Iw,cmap='gray')
-plt.title('Iw (marca incrustada)')
+plt.title('Iw (con marca incrustada)')
+
+#des-incruistar marca de agua
+A_estrella=np.zeros((64,64))
+for m in range(64):
+    for n in range(64):
+        block = Iw[m*8:m*8+8,n*8:n*8+8]
+        dct2d_block=dct2d(block)
+        A_estrella[m,n]=dct2d_block[0,0]
+
+
+U_s,S_s,Vt_s=np.linalg.svd(A_estrella,True)
+D_star = U_1 @ np.diag(S_s) @ Vt_1
+W_star= (1/alpha)*(D_star-np.diag(S))
+
+W_star[W_star>255]=255
+W_star[W_star<0]=0
+
+W_star=W_star.astype(np.uint8)
+
+plt.subplot(2,2,4)
+plt.imshow(W_star,cmap='gray')
+plt.title('Ws (marca extraida)')
 plt.show()
 
 
