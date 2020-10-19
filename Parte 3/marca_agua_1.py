@@ -70,7 +70,7 @@ for m in range(64):
         A_estrella[m,n]=dct2d_block[0,0]
 
 
-U_s,S_s,Vt_s=np.linalg.svd(A_estrella,True)
+U_s,S_s,Vt_s=np.linalg.svd(A_estrella,False)
 D_star = U_1 @ np.diag(S_s) @ Vt_1
 W_star= (1/alpha)*(D_star-np.diag(S))
 

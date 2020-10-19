@@ -35,7 +35,7 @@ for index in range(len(imgs_orig)):
     C_orig[:,index]=cv2.imread(img_orig_path,cv2.IMREAD_GRAYSCALE).reshape(rows*cols)
    
 # SVD de matriz B
-u_b,s_b,vh_b=np.linalg.svd(B_ruido,True)
+u_b,s_b,vh_b=np.linalg.svd(B_ruido,False)
 
 eps=np.finfo(s_b.dtype).eps #lo que es considerado 0 por python
 
@@ -52,7 +52,7 @@ P= C_orig@Vs@Vs.transpose()
 B_pinv= vh_b.transpose() @ np.linalg.inv(np.diag(s_b)) @ u_b.transpose() 
 
 #SVD P
-u_p,s_p,vh_p=np.linalg.svd(P,True)
+u_p,s_p,vh_p=np.linalg.svd(P,False)
 
 #itera los rangos deseados
 pos=0
