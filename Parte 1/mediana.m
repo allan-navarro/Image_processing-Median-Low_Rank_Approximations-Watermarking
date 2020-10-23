@@ -9,10 +9,10 @@ tic
 for col=1:n
   start_col=max(1,col-1);
   end_col= min(n,col+1);
-  strip=imagen(:,start_col:end_col,:);
+  strip=A(:,start_col:end_col,:);
   for row =1:m
       start_row=max(1,row-1);
-      end_row=min(m),row+1);
+      end_row=min(m,row+1);
       r= median(median(strip(start_row:end_row,:,1)));
       g= median(median(strip(start_row:end_row,:,2)));
       b= median(median(strip(start_row:end_row,:,3)));
