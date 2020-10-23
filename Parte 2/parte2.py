@@ -8,10 +8,13 @@ shape = imagen_a_limpiar.shape
 rows=shape[0] #columnas de la imagen 
 cols=shape[1] #filas de la imagen
 
-rangos=[40,120, 220, 300, 380, 416] #rangos especificados en el enunciado
 
-imgs_ruido= [join('.','ruido',f) for f in listdir('ruido') if isfile(join('ruido',f))] #lista con el nombre de las imagenes originales
-imgs_orig= [join('.','original',f) for f in listdir('original') if isfile(join('original',f))] #lista con el nombre de las imagenes con ruido
+
+#lista con el nombre de las imagenes originales
+imgs_ruido= [join('.','ruido',f) for f in listdir('ruido') if isfile(join('ruido',f))] 
+
+#lista con el nombre de las imagenes con ruido
+imgs_orig= [join('.','original',f) for f in listdir('original') if isfile(join('original',f))]
 
 #verifica que el numero de imagenes sean iguales en ambos directorios
 if len(imgs_ruido) != len(imgs_orig):
@@ -54,8 +57,14 @@ B_pinv= vh_b.transpose() @ np.linalg.inv(np.diag(s_b)) @ u_b.transpose()
 #SVD P
 u_p,s_p,vh_p=np.linalg.svd(P,False)
 
+plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=0.2, hspace=0.6)
+plt.subplot(3,3,1)
+plt.imshow(imagen_a_limpiar,cmap='gray')
+plt.title('imagen sucia')
+
 #itera los rangos deseados
-pos=0
+rangos=[40,120, 220, 300, 380, 416] #rangos especificados en el enunciado
+pos=1
 for r in rangos:
     pos +=1
     #calcula P reducida con el rango r
@@ -75,7 +84,7 @@ for r in rangos:
 
     #se guarda la imagen
     #cv2.imwrite('limpia_r'+str(r)+'.jpg',reconst)
-    plt.subplot(2,3,pos)
+    plt.subplot(3,3,pos)
     plt.imshow(reconst,cmap='gray')
     plt.title('limpia r: '+str(r))
 
