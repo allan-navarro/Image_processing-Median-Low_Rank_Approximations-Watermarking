@@ -31,8 +31,8 @@ for canal=1:canales
   image_vec=A(:,:,canal)(:); %extrae el canal y lo vectoriza
 
 %se ponen los 9 pixeles de la ventana en filas
-  row_median = [image_vec circshift(image_vec,-1) circshift(image_vec,-2) \
-             circshift(image_vec,-m) circshift(image_vec,-m-1) circshift(image_vec,-m-2) \
+  row_median = [image_vec circshift(image_vec,-1) circshift(image_vec,-2) ...
+             circshift(image_vec,-m) circshift(image_vec,-m-1) circshift(image_vec,-m-2) ...
              circshift(image_vec,-2*m) circshift(image_vec,-2*m-1) circshift(image_vec,-2*m-2) ];
              
   med=median(row_median,2); %calcula la mediana por filas
